@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FileMvp</string>
+    <string name="loading">正在加载</string>
+    <string name="load_error_please_retry">加载错误,请重试</string>
 </resources>

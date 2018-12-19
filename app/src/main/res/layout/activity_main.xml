@@ -7,13 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rlv_file"
+    <com.classic.common.MultipleStatusView
+        android:id="@+id/msv_file"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:emptyView="@layout/layout_empty_view"
+        app:errorView="@layout/layout_error_view"
+        app:loadingView="@layout/layout_loading_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rlv_file"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.classic.common.MultipleStatusView>
 
 </android.support.constraint.ConstraintLayout>
