@@ -14,6 +14,6 @@ public interface FileContract {
 
 
     interface Preseneter extends BasePresenter{
-
+        void readFiles();
     }
 }
