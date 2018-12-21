@@ -1,5 +1,6 @@
 package com.sixin.filemvp;
 
+import android.Manifest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainActivity extends AppCompatActivity implements FileContract.View{
+public class MainActivity extends AppCompatActivity implements FileContract.View, PermissionUtils.OnPermissionListener {
     //TODO 项目分包
     //TODO 整体架构图
     //TODO 测试修改View，而不影响model的说法
@@ -32,8 +33,17 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
-        mFilePresenter = new FilePresenter(this);
-        mFilePresenter.readFiles();
+
+        String[] requestPermissions = new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+        PermissionUtils.requestPermissions(this,
+                                            Config.CODE_REQUEST_PERMISSIONS,
+                                            requestPermissions,
+                                            this);
+//        mFilePresenter = new FilePresenter(this);
+//        mFilePresenter.readFiles();
     }
 
     @Override
@@ -66,5 +76,15 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
     @Override
     public void setPresenter(FileContract.Preseneter presenter) {
 
+    }
+
+    @Override
+    public void onPermissionGranted() {
+        LogUtils.d("权限申请成功");
+    }
+
+    @Override
+    public void onPermissionDenied(String[] deniedPermissions) {
+        LogUtils.d("权限被拒绝");
     }
 }
