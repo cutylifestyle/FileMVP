@@ -1,9 +1,11 @@
 package com.sixin.filemvp;
 
 import android.Manifest;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.classic.common.MultipleStatusView;
 
@@ -33,7 +35,9 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
-
+        //TODO 考虑权限申请放置的位置
+        //TODO 考察内存泄漏问题
+        //TODO 互联网权限申请UI整改
         String[] requestPermissions = new String[]{
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -41,9 +45,26 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
         PermissionUtils.requestPermissions(this,
                                             Config.CODE_REQUEST_PERMISSIONS,
                                             requestPermissions,
-                                            this);
+                                            this,
+                                            new PermissionUtils.RationaleHandler(){
+
+                                                @Override
+                                                protected void showRationale() {
+                                                    LogUtils.d("showRationale");
+                                                    requestPermissionsAgain();
+                                                }
+                                            });
 //        mFilePresenter = new FilePresenter(this);
 //        mFilePresenter.readFiles();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionUtils.onRequestPermissionsResult(MainActivity.this,
+                                            requestCode,
+                                            permissions,
+                                            grantResults);
     }
 
     @Override
