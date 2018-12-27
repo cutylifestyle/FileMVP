@@ -1,8 +1,6 @@
 package com.sixin.filemvp;
 
 import android.text.TextUtils;
-import android.widget.ImageView;
-
 import java.io.File;
 
 public class FormatUtils {
@@ -62,21 +60,5 @@ public class FormatUtils {
      */
     public static String getForamtName(File file) {
         return getFormatName(file.getName());
-    }
-
-    /**
-     * 直接设置icon
-     *
-     * @param iv       需要设置icon的View
-     * @param fileName 文件名
-     */
-    public static void initIcon(ImageView iv, String fileName) {
-        //如果是图片类型的文件，还需要直接展示图片
-        if (getFileType(fileName).equalsIgnoreCase(FormatEnum.IMG.TYPE)) {
-            iv.setImageResource(FormatEnum.IMG.ICON);
-//            ImageLoader.load(iv.getContext(), fileName, iv);
-        } else {
-            iv.setImageResource(getFileIcon(fileName));
-        }
     }
 }

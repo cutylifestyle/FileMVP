@@ -1,9 +1,10 @@
 package com.sixin.filemvp;
 
 public enum FormatEnum {
-
+    //文件夹
     FOLDER("folder",R.drawable.ic_work_light_green_500),
 
+    //图片格式
     IMG("img",R.drawable.ic_photo_green_500_24dp,"jpg", "jpeg", "gif", "png", "bmp", "tiff"),
 
     //文本格式
