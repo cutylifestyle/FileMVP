@@ -4,10 +4,17 @@ import android.Manifest;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.classic.common.MultipleStatusView;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
     //TODO 使用mvc写一套
     //TODO 需求变更：文件分类显示
     //TODO 集成findBugs插件
+    //TODO 屏幕适配方案
     private Unbinder mUnbinder;
 
     @BindView(R.id.rlv_file)
@@ -28,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
     @BindView(R.id.msv_file)
     MultipleStatusView mMsvFile;
 
+    private FileAdapter mFileAdapter;
+
     private FileContract.Preseneter mFilePresenter;
 
     @Override
@@ -35,9 +45,9 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
+
+        initRlv();
         //TODO 考虑权限申请放置的位置
-        //TODO 考察内存泄漏问题
-        //TODO 互联网权限申请UI整改
         String[] requestPermissions = new String[]{
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -54,8 +64,10 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
                                                     requestPermissionsAgain();
                                                 }
                                             });
-//        mFilePresenter = new FilePresenter(this);
-//        mFilePresenter.readFiles();
+    }
+
+    private void initRlv() {
+        mRlvFile.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
     }
 
     @Override
@@ -71,27 +83,44 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+        PermissionUtils.releaseListener();
         App.getRefWatcher(getApplicationContext()).watch(this);
     }
 
     @Override
     public void showLoading() {
-
+        if (mMsvFile != null) {
+            mMsvFile.showLoading();
+        }
     }
 
     @Override
     public void showEmpty() {
-
+        if (mMsvFile != null) {
+            mMsvFile.showEmpty();
+        }
     }
 
     @Override
     public void showError() {
-
+        if (mMsvFile != null) {
+            mMsvFile.showError();
+        }
     }
 
     @Override
-    public void showContent() {
+    public void showContent(List<File> files) {
+        if (mMsvFile != null && files != null) {
+            LogUtils.d("showContent");
+            mFileAdapter = new FileAdapter(R.layout.item_file,files);
+            mRlvFile.setAdapter(mFileAdapter);
+            mMsvFile.showContent();
+        }
+    }
 
+    @Override
+    public boolean isActive() {
+        return ActivityUtils.isActivityExists(this);
     }
 
     @Override
@@ -102,10 +131,14 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
     @Override
     public void onPermissionGranted() {
         LogUtils.d("权限申请成功");
+        mFilePresenter = new FilePresenter(this);
+        mFilePresenter.readFiles();
     }
 
     @Override
     public void onPermissionDenied(String[] deniedPermissions) {
         LogUtils.d("权限被拒绝");
+        Toast.makeText(this, "无权限读取本地数据", Toast.LENGTH_SHORT).show();
+        showEmpty();
     }
 }

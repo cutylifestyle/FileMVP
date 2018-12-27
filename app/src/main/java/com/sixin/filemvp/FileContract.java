@@ -1,5 +1,8 @@
 package com.sixin.filemvp;
 
+import java.io.File;
+import java.util.List;
+
 public interface FileContract {
 
     interface View extends BaseView<Preseneter> {
@@ -9,7 +12,9 @@ public interface FileContract {
 
         void showError();
 
-        void showContent();
+        void showContent(List<File> files);
+
+        boolean isActive();
     }
 
 

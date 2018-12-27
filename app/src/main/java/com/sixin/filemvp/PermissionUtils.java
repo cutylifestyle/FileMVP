@@ -135,4 +135,10 @@ public final class PermissionUtils {
         }
         return false;
     }
+
+    public static void releaseListener() {
+        if (mOnPermissionListener != null) {
+            mOnPermissionListener = null;
+        }
+    }
 }
