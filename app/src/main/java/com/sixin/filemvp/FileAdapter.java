@@ -22,6 +22,9 @@ public class FileAdapter extends MiddleLayerAdapter<File> {
         TextView tvFileName = helper.getView(R.id.tv_file_name);
         TextView tvFileSize = helper.getView(R.id.tv_file_size);
 
+        int res = FormatUtils.getFileIcon(item);
+        imgFileIcon.setImageResource(res);
+
         String fileName = getContent(item.getName(),1);
         tvFileName.setText(fileName);
 
