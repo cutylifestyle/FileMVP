@@ -50,4 +50,24 @@ public class FilePresenter implements FileContract.Preseneter {
             }
         });
     }
+
+    @Override
+    public void deleteFile(File file,int position) {
+        mFileManager.deleteFile(file,new IDelete() {
+            @Override
+            public void deleteSuccess() {
+                //todo 这个部分可能存在内存泄漏
+                if (mView != null && mView.isActive()) {
+                    mView.removeItem(position);
+                }
+            }
+
+            @Override
+            public void deleteFail() {
+                if (mView != null && mView.isActive()) {
+                    mView.toast("删除文件失败");
+                }
+            }
+        });
+    }
 }

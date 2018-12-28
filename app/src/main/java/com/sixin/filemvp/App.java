@@ -14,6 +14,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         Utils.init(this);
+        //控制日志的开关
+        LogUtils.getConfig().setLogSwitch(true);
         mRefWatcher = setupLeakCanary();
     }
 

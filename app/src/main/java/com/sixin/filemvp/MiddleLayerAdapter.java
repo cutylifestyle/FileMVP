@@ -5,10 +5,15 @@ import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.daimajia.swipe.SwipeLayout;
+import com.daimajia.swipe.implments.SwipeItemRecyclerMangerImpl;
+import com.daimajia.swipe.interfaces.SwipeAdapterInterface;
+import com.daimajia.swipe.interfaces.SwipeItemMangerInterface;
+import com.daimajia.swipe.util.Attributes;
 
 import java.util.List;
 
-public abstract class MiddleLayerAdapter<T> extends BaseQuickAdapter<T,BaseViewHolder> {
+public abstract class MiddleLayerAdapter<T> extends BaseQuickAdapter<T,BaseViewHolder>{
 
     public MiddleLayerAdapter(int layoutResId, @Nullable List<T> data) {
         super(layoutResId, data);
@@ -39,6 +44,9 @@ public abstract class MiddleLayerAdapter<T> extends BaseQuickAdapter<T,BaseViewH
                 break;
             case 2:
                 result = "暂无文件大小";
+                break;
+            default:
+                result = "暂无信息";
                 break;
         }
         return result;

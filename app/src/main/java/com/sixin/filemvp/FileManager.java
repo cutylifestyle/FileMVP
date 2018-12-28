@@ -23,4 +23,18 @@ public class FileManager implements FileModel {
             }
         }
     }
+
+    @Override
+    public void deleteFile(File file,IDelete iDelete) {
+        boolean result = FileUtils.deleteFile(file);
+        if (result) {
+            if (iDelete != null) {
+                iDelete.deleteSuccess();
+            }
+        }else{
+            if (iDelete != null) {
+                iDelete.deleteFail();
+            }
+        }
+    }
 }

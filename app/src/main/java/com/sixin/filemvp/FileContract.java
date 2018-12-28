@@ -14,11 +14,18 @@ public interface FileContract {
 
         void showContent(List<File> files);
 
+        void removeItem(int position);
+
+        void toast(String msg);
+
         boolean isActive();
     }
 
 
     interface Preseneter extends BasePresenter{
+
         void readFiles();
+
+        void deleteFile(File file,int position);
     }
 }

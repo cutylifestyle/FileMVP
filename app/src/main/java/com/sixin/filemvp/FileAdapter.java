@@ -3,15 +3,18 @@ package com.sixin.filemvp;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.daimajia.swipe.SimpleSwipeListener;
+import com.daimajia.swipe.SwipeLayout;
 
 import java.io.File;
 import java.util.List;
 
 public class FileAdapter extends MiddleLayerAdapter<File> {
     //TODO 泛型规则存在问题
-    //TODO 准备图标资源
+    //TODO 如何配合BaseQuickAdapter使用----->顺便研究一下RecyclerView的源码
     public FileAdapter(int layoutResId, @Nullable List<File> data) {
         super(layoutResId, data);
     }
@@ -30,5 +33,6 @@ public class FileAdapter extends MiddleLayerAdapter<File> {
 
         String fileSize = getContent(FileUtils.getFileSize(item),2);
         tvFileSize.setText(fileSize);
+
     }
 }

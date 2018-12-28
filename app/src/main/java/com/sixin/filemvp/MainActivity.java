@@ -6,11 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.classic.common.MultipleStatusView;
+import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
+import com.daimajia.swipe.util.Attributes;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,14 +25,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainActivity extends AppCompatActivity implements FileContract.View, PermissionUtils.OnPermissionListener {
-    //TODO 项目分包
-    //TODO 整体架构图
+public class MainActivity extends AppCompatActivity implements FileContract.View, PermissionUtils.OnPermissionListener, BaseQuickAdapter.OnItemClickListener {
+    //TODO 与TODO-MVP的业务进行对比，看之间的区别
     //TODO 测试修改View，而不影响model的说法
     //TODO 使用mvc写一套
     //TODO 需求变更：文件分类显示
-    //TODO 集成findBugs插件
     //TODO 屏幕适配方案
+    //TODO 集成侧滑删除功能
+    //TODO 项目分包
+    //TODO 整体架构图
     private Unbinder mUnbinder;
 
     @BindView(R.id.rlv_file)
@@ -36,7 +42,8 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
     @BindView(R.id.msv_file)
     MultipleStatusView mMsvFile;
 
-    private FileAdapter mFileAdapter;
+    private FileAdapter mAdapter;
+    private List<File> mFiles;
 
     private FileContract.Preseneter mFilePresenter;
 
@@ -45,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
-
         initRlv();
         //TODO 考虑权限申请放置的位置
         String[] requestPermissions = new String[]{
@@ -112,9 +118,25 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
     public void showContent(List<File> files) {
         if (mMsvFile != null && files != null) {
             LogUtils.d("showContent");
-            mFileAdapter = new FileAdapter(R.layout.item_file,files);
-            mRlvFile.setAdapter(mFileAdapter);
+            mFiles = files;
+            mAdapter = new FileAdapter(R.layout.item_file1, mFiles);
+            mRlvFile.setAdapter(mAdapter);
+            mAdapter.setOnItemClickListener(this);
             mMsvFile.showContent();
+        }
+    }
+
+    @Override
+    public void removeItem(int deletePosition) {
+        if (mAdapter != null && deletePosition >=0) {
+            mAdapter.remove(deletePosition);
+        }
+    }
+
+    @Override
+    public void toast(String msg) {
+        if (!TextUtils.isEmpty(msg)) {
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -140,5 +162,12 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
         LogUtils.d("权限被拒绝");
         Toast.makeText(this, "无权限读取本地数据", Toast.LENGTH_SHORT).show();
         showEmpty();
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if (mFiles != null && mFiles.size() > 0 && mFilePresenter != null) {
+            mFilePresenter.deleteFile(mFiles.get(position),position);
+        }
     }
 }
