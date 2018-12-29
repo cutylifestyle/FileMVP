@@ -1,6 +1,11 @@
-package com.sixin.filemvp;
+package com.sixin.filemvp.data;
 
 import android.os.Environment;
+
+import com.sixin.filemvp.data.FileModel;
+import com.sixin.filemvp.data.IDelete;
+import com.sixin.filemvp.data.IRead;
+import com.sixin.filemvp.utils.FileUtils;
 
 import java.io.File;
 import java.util.List;

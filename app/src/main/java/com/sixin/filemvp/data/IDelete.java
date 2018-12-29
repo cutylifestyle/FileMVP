@@ -1,4 +1,4 @@
-package com.sixin.filemvp;
+package com.sixin.filemvp.data;
 
 public interface IDelete {
 

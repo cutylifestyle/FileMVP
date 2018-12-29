@@ -1,4 +1,4 @@
-package com.sixin.filemvp;
+package com.sixin.filemvp.files;
 
 import android.Manifest;
 import android.support.annotation.NonNull;
@@ -7,18 +7,19 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.classic.common.MultipleStatusView;
-import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
-import com.daimajia.swipe.util.Attributes;
+import com.sixin.filemvp.App;
+import com.sixin.filemvp.Config;
+import com.sixin.filemvp.R;
+import com.sixin.filemvp.utils.ActivityUtils;
+import com.sixin.filemvp.utils.LogUtils;
+import com.sixin.filemvp.utils.PermissionUtils;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,16 +27,16 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity implements FileContract.View, PermissionUtils.OnPermissionListener, BaseQuickAdapter.OnItemClickListener {
-    //TODO 与TODO-MVP的业务进行对比，看之间的区别
-    //TODO 测试修改View，而不影响model的说法
-    //TODO 使用mvc写一套
-    //TODO 需求变更：文件分类显示
+    //TODO Glide源码分析
+    //TODO 1：使用mvc写一套
+    //TODO 2：需求变更：文件分类显示
     //TODO 屏幕适配方案
     //TODO 集成侧滑删除功能
-    //TODO 项目分包
-    //TODO 整体架构图
+    //TODO 3：整体架构图
+    //TODO 2：测试修改View，而不影响model的说法
+    //TODO 二维码的制作以及二维码的扫描
+    //TODO 单元测试
     private Unbinder mUnbinder;
-
     @BindView(R.id.rlv_file)
     RecyclerView mRlvFile;
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
     MultipleStatusView mMsvFile;
 
     private FileAdapter mAdapter;
+    //TODO 对比TODO-mvp，集合不出现在view层
     private List<File> mFiles;
 
     private FileContract.Preseneter mFilePresenter;
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
         initRlv();
-        //TODO 考虑权限申请放置的位置
+
         String[] requestPermissions = new String[]{
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE

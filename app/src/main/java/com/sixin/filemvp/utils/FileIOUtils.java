@@ -1,4 +1,6 @@
-package com.sixin.filemvp;
+package com.sixin.filemvp.utils;
+
+import com.sixin.filemvp.utils.CloseUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;

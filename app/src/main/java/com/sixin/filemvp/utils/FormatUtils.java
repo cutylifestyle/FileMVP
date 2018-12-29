@@ -1,6 +1,9 @@
-package com.sixin.filemvp;
+package com.sixin.filemvp.utils;
 
 import android.text.TextUtils;
+
+import com.sixin.filemvp.utils.FormatEnum;
+
 import java.io.File;
 
 public class FormatUtils {

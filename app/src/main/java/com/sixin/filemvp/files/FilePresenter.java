@@ -1,4 +1,10 @@
-package com.sixin.filemvp;
+package com.sixin.filemvp.files;
+
+import com.sixin.filemvp.data.FileManager;
+import com.sixin.filemvp.data.FileModel;
+import com.sixin.filemvp.data.IDelete;
+import com.sixin.filemvp.data.IRead;
+import com.sixin.filemvp.files.FileContract;
 
 import java.io.File;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.sixin.filemvp;
+package com.sixin.filemvp.files;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,6 +12,10 @@ import android.widget.TextView;
 import com.daimajia.swipe.SimpleSwipeListener;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
+import com.sixin.filemvp.R;
+import com.sixin.filemvp.utils.FileUtils;
+import com.sixin.filemvp.utils.FormatUtils;
+import com.sixin.filemvp.utils.LogUtils;
 
 import java.io.File;
 import java.util.List;

@@ -3,6 +3,8 @@ package com.sixin.filemvp;
 import android.app.Application;
 import android.content.Context;
 
+import com.sixin.filemvp.utils.LogUtils;
+import com.sixin.filemvp.utils.Utils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 

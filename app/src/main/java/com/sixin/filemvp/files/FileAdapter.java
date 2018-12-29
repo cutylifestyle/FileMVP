@@ -1,13 +1,13 @@
-package com.sixin.filemvp;
+package com.sixin.filemvp.files;
 
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.daimajia.swipe.SimpleSwipeListener;
-import com.daimajia.swipe.SwipeLayout;
+import com.sixin.filemvp.R;
+import com.sixin.filemvp.utils.FileUtils;
+import com.sixin.filemvp.utils.FormatUtils;
 
 import java.io.File;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.sixin.filemvp;
+package com.sixin.filemvp.files;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;

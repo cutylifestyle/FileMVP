@@ -1,4 +1,6 @@
-package com.sixin.filemvp;
+package com.sixin.filemvp.utils;
+
+import com.sixin.filemvp.R;
 
 public enum FormatEnum {
     //文件夹
