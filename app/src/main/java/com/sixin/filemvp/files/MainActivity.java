@@ -28,14 +28,13 @@ import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity implements FileContract.View, PermissionUtils.OnPermissionListener, BaseQuickAdapter.OnItemClickListener {
     //TODO Glide源码分析
-    //TODO 1：使用mvc写一套
     //TODO 2：需求变更：文件分类显示
     //TODO 屏幕适配方案
     //TODO 集成侧滑删除功能
     //TODO 3：整体架构图
     //TODO 2：测试修改View，而不影响model的说法
     //TODO 二维码的制作以及二维码的扫描
-    //TODO 单元测试
+    //TODO 3:单元测试
     private Unbinder mUnbinder;
     @BindView(R.id.rlv_file)
     RecyclerView mRlvFile;
