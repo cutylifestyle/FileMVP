@@ -20,6 +20,7 @@ import com.sixin.filemvp.utils.LogUtils;
 import com.sixin.filemvp.utils.PermissionUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,12 +30,10 @@ import butterknife.Unbinder;
 public class MainActivity extends AppCompatActivity implements FileContract.View, PermissionUtils.OnPermissionListener, BaseQuickAdapter.OnItemClickListener {
     //TODO Glide源码分析
     //TODO 2：需求变更：文件分类显示
-    //TODO 屏幕适配方案
-    //TODO 集成侧滑删除功能
-    //TODO 3：整体架构图
+    //TODO 数据的懒加载方案
     //TODO 2：测试修改View，而不影响model的说法
-    //TODO 二维码的制作以及二维码的扫描
-    //TODO 3:单元测试
+    //TODO 3:单元测试----->阅读官方mvp项目的代码----->调试测试用例---->mvc如何进行单元测试
+    //TODO git学习
     private Unbinder mUnbinder;
     @BindView(R.id.rlv_file)
     RecyclerView mRlvFile;
@@ -43,8 +42,6 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
     MultipleStatusView mMsvFile;
 
     private FileAdapter mAdapter;
-    //TODO 对比TODO-mvp，集合不出现在view层
-    private List<File> mFiles;
 
     private FileContract.Preseneter mFilePresenter;
 
@@ -54,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
         initRlv();
+        initAdapter();
 
         String[] requestPermissions = new String[]{
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -71,6 +69,12 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
                                                     requestPermissionsAgain();
                                                 }
                                             });
+    }
+
+    private void initAdapter() {
+        mAdapter = new FileAdapter(R.layout.item_file1, new ArrayList<>());
+        mRlvFile.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(this);
     }
 
     private void initRlv() {
@@ -119,10 +123,7 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
     public void showContent(List<File> files) {
         if (mMsvFile != null && files != null) {
             LogUtils.d("showContent");
-            mFiles = files;
-            mAdapter = new FileAdapter(R.layout.item_file1, mFiles);
-            mRlvFile.setAdapter(mAdapter);
-            mAdapter.setOnItemClickListener(this);
+            mAdapter.addData(files);
             mMsvFile.showContent();
         }
     }
@@ -147,11 +148,6 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
     }
 
     @Override
-    public void setPresenter(FileContract.Preseneter presenter) {
-
-    }
-
-    @Override
     public void onPermissionGranted() {
         LogUtils.d("权限申请成功");
         mFilePresenter = new FilePresenter(this);
@@ -167,8 +163,8 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        if (mFiles != null && mFiles.size() > 0 && mFilePresenter != null) {
-            mFilePresenter.deleteFile(mFiles.get(position),position);
+        if (mFilePresenter != null && mAdapter != null) {
+            mFilePresenter.deleteFile(mAdapter.getItem(position),position);
         }
     }
 }

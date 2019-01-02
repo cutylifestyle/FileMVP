@@ -1,10 +1,21 @@
 package com.sixin.filemvp.data;
 
 import java.io.File;
+import java.util.List;
 
 public interface FileModel {
 
-    //TODO TODO-MVP中将接口至于其中
+    interface IDelete{
+        void deleteSuccess();
+
+        void deleteFail();
+    }
+
+    interface IRead{
+        void readSuccess(List<File> files);
+
+        void readFail();
+    }
 
     void readFiles(IRead iRead);
 
