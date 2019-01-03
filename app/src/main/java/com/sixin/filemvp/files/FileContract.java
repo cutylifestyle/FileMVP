@@ -27,6 +27,8 @@ public interface FileContract {
 
         void readFiles();
 
+        void readFilesByFormatName(String formatName);
+
         void deleteFile(File file,int position);
     }
 }

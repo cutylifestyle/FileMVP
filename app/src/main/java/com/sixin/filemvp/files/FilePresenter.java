@@ -50,6 +50,32 @@ public class FilePresenter implements FileContract.Preseneter {
     }
 
     @Override
+    public void readFilesByFormatName(String formatName) {
+        //TODO 考虑代码复用
+        mView.showLoading();
+        mFileManager.readFilesByFormatName(formatName,new FileModel.IRead() {
+            @Override
+            public void readSuccess(List<File> files) {
+                //todo 这个部分可能存在内存泄漏
+                if (mView != null && mView.isActive()) {
+                    if (files != null && files.size() > 0) {
+                        mView.showContent(files);
+                    }else{
+                        mView.showEmpty();
+                    }
+                }
+            }
+
+            @Override
+            public void readFail() {
+                if (mView != null && mView.isActive()) {
+                    mView.showError();
+                }
+            }
+        });
+    }
+
+    @Override
     public void deleteFile(File file,int position) {
         mFileManager.deleteFile(file,new FileModel.IDelete() {
             @Override

@@ -29,6 +29,7 @@ import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity implements FileContract.View, PermissionUtils.OnPermissionListener, BaseQuickAdapter.OnItemClickListener {
     //TODO Glide源码分析
+    //TODO 面向接口编程的优势
     //TODO 2：需求变更：文件分类显示
     //TODO 数据的懒加载方案
     //TODO 2：测试修改View，而不影响model的说法

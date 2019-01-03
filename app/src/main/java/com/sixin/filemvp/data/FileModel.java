@@ -20,4 +20,6 @@ public interface FileModel {
     void readFiles(IRead iRead);
 
     void deleteFile(File file,IDelete iDelete);
+
+    void readFilesByFormatName(String formatName,IRead iRead);
 }
