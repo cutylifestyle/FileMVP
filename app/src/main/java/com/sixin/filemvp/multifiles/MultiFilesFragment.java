@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.classic.common.MultipleStatusView;
+import com.sixin.filemvp.App;
 import com.sixin.filemvp.R;
 import com.sixin.filemvp.files.FileAdapter;
 import com.sixin.filemvp.files.FileContract;
@@ -26,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MultiFilesFragment extends Fragment implements FileContract.View {
+public class MultiFilesFragment extends Fragment implements FileContract.View, BaseQuickAdapter.OnItemClickListener {
 
     private static final String ARG_PARAM = "title";
 
@@ -68,7 +70,7 @@ public class MultiFilesFragment extends Fragment implements FileContract.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_multi_files, container, false);
-        mUnbinder = ButterKnife.bind(view);
+        mUnbinder = ButterKnife.bind(this,view);
         init();
         mPresenter = new FilePresenter(this);
         mPresenter.readFilesByFormatName(mTitle);
@@ -79,6 +81,7 @@ public class MultiFilesFragment extends Fragment implements FileContract.View {
         mRlvMultiFiles.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new FileAdapter(R.layout.item_file1, new ArrayList<>());
         mRlvMultiFiles.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -87,6 +90,7 @@ public class MultiFilesFragment extends Fragment implements FileContract.View {
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
+        App.getRefWatcher(getContext().getApplicationContext()).watch(this);
     }
 
     //TODO UI显示部分的逻辑重复了
@@ -136,7 +140,14 @@ public class MultiFilesFragment extends Fragment implements FileContract.View {
     //TODO 碎片中应该如何判断
     @Override
     public boolean isActive() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if (mPresenter != null && mAdapter != null) {
+            mPresenter.deleteFile(mAdapter.getItem(position),position);
+        }
     }
 
 }
