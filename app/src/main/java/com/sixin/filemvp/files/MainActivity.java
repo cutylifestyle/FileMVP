@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
     //TODO 数据的懒加载方案
     //TODO 3:单元测试----->阅读官方mvp项目的代码----->调试测试用例---->mvc如何进行单元测试
     //TODO git学习
+    //TODO 封装BaseMvpActivity以及BaseMvpFragment
     private Unbinder mUnbinder;
     @BindView(R.id.rlv_file)
     RecyclerView mRlvFile;
@@ -95,6 +96,11 @@ public class MainActivity extends AppCompatActivity implements FileContract.View
         mUnbinder.unbind();
         PermissionUtils.releaseListener();
         App.getRefWatcher(getApplicationContext()).watch(this);
+        if (mFilePresenter != null) {
+            mFilePresenter.release();
+            mFilePresenter = null;
+            System.gc();
+        }
     }
 
     @Override

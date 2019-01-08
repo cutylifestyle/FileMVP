@@ -21,7 +21,8 @@ public class FilePresenter implements FileContract.Preseneter {
 
     @Override
     public void release() {
-
+        mView = null;
+        System.gc();
     }
 
     @Override
@@ -30,7 +31,6 @@ public class FilePresenter implements FileContract.Preseneter {
         mFileManager.readFiles(new FileModel.IRead() {
             @Override
             public void readSuccess(List<File> files) {
-                //todo 这个部分可能存在内存泄漏
                 if (mView != null && mView.isActive()) {
                     if (files != null && files.size() > 0) {
                         mView.showContent(files);
@@ -56,7 +56,6 @@ public class FilePresenter implements FileContract.Preseneter {
         mFileManager.readFilesByFormatName(formatName,new FileModel.IRead() {
             @Override
             public void readSuccess(List<File> files) {
-                //todo 这个部分可能存在内存泄漏
                 if (mView != null && mView.isActive()) {
                     if (files != null && files.size() > 0) {
                         mView.showContent(files);
@@ -80,7 +79,6 @@ public class FilePresenter implements FileContract.Preseneter {
         mFileManager.deleteFile(file,new FileModel.IDelete() {
             @Override
             public void deleteSuccess() {
-                //todo 这个部分可能存在内存泄漏
                 if (mView != null && mView.isActive()) {
                     mView.removeItem(position);
                 }
