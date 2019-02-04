@@ -28,12 +28,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity implements FileContract.View, PermissionUtils.OnPermissionListener, BaseQuickAdapter.OnItemClickListener {
-    //TODO Glide源码分析
     //TODO 面向接口编程的优势
-    //TODO 数据的懒加载方案
     //TODO 3:单元测试----->阅读官方mvp项目的代码----->调试测试用例---->mvc如何进行单元测试
     //TODO git学习
-    //TODO 封装BaseMvpActivity以及BaseMvpFragment
+    //todo rxjava结合mvp的内存泄漏
     private Unbinder mUnbinder;
     @BindView(R.id.rlv_file)
     RecyclerView mRlvFile;
